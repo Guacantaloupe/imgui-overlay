@@ -1,4 +1,4 @@
-﻿// Vulkan 钩子：vkQueuePresentKHR / vkCreateSwapchainKHR 等
+// Vulkan 钩子：vkQueuePresentKHR / vkCreateSwapchainKHR 等
 // 通过挂钩加载器导出函数 + 拦截 vkGetInstanceProcAddr/vkGetDeviceProcAddr 的返回，
 // 覆盖游戏无论用哪种方式解析函数指针的情况。
 #include "pch.h"
@@ -310,7 +310,7 @@ namespace
             info.CheckVkResultFn = +[](VkResult err)
             {
                 if (err != VK_SUCCESS)
-                    ImhLog("[imgui-hook] ImGui Vulkan 后端报错\n");
+                    ImhLog("[imgui-overlay] ImGui Vulkan 后端报错\n");
             };
 
             if (!ImGui_ImplVulkan_Init(&info) || !ImGui_ImplVulkan_CreateFontsTexture())
@@ -452,7 +452,7 @@ namespace hooks
         };
 
         bool any = false;
-        ImhLog("[imgui-hook] Vulkan 钩子安装中\n");
+        ImhLog("[imgui-overlay] Vulkan 钩子安装中\n");
         for (auto& d : defs)
         {
             void* target = (void*)vkfn::GetProc(d.name);

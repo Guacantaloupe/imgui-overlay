@@ -1,4 +1,4 @@
-﻿// overlay 公共层实现：ImGui 上下文、WndProc 子类化、菜单、API 检测与钩子安装。
+// overlay 公共层实现：ImGui 上下文、WndProc 子类化、菜单、API 检测与钩子安装。
 #include "pch.h"
 #include "imgui_hook.h"
 #include "debug_log.h"
@@ -206,10 +206,10 @@ HWND overlay::TargetWindow()
 
 bool overlay::InstallHooks()
 {
-    ImhLog("[imgui-hook] InstallHooks 开始");
+    ImhLog("[imgui-overlay] InstallHooks 开始");
     if (MH_Initialize() != MH_OK && MH_Initialize() != MH_ERROR_ALREADY_INITIALIZED)
     {
-        ImhLog("[imgui-hook] MinHook 初始化失败");
+        ImhLog("[imgui-overlay] MinHook 初始化失败");
         return false;
     }
 
@@ -221,7 +221,7 @@ bool overlay::InstallHooks()
         kiero::D3D12Output out = {};
         if (kiero::locate<kiero::Implementation_D3D12>(nullptr, &out) == kiero::Error_Nil)
         {
-            ImhLog("[imgui-hook] 已定位 D3D12 方法表 (%zu 个交换链方法)", out.swapchain_methods.size());
+            ImhLog("[imgui-overlay] 已定位 D3D12 方法表 (%zu 个交换链方法)", out.swapchain_methods.size());
             any |= hooks::InstallD3D12(out);
         }
     }
@@ -229,13 +229,13 @@ bool overlay::InstallHooks()
     // Direct3D 11
     if (GetModuleHandleA("d3d11.dll") && GetModuleHandleA("dxgi.dll"))
     {
-        ImhLog("[imgui-hook] d3d11/dxgi 已加载，定位方法表中...");
+        ImhLog("[imgui-overlay] d3d11/dxgi 已加载，定位方法表中...");
         kiero::D3D11Output out = {};
         auto err = kiero::locate<kiero::Implementation_D3D11>(nullptr, &out);
-        ImhLog("[imgui-hook] kiero locate D3D11 返回 %d", (int)err);
+        ImhLog("[imgui-overlay] kiero locate D3D11 返回 %d", (int)err);
         if (err == kiero::Error_Nil)
         {
-            ImhLog("[imgui-hook] 已定位 D3D11 方法表 (%zu 个交换链方法)", out.swapchain_methods.size());
+            ImhLog("[imgui-overlay] 已定位 D3D11 方法表 (%zu 个交换链方法)", out.swapchain_methods.size());
             any |= hooks::InstallD3D11(out);
         }
     }
@@ -250,7 +250,7 @@ bool overlay::InstallHooks()
         kiero::OpenGLOutput out = {};
         if (kiero::locate<kiero::Implementation_OpenGL>(nullptr, &out) == kiero::Error_Nil)
         {
-            ImhLog("[imgui-hook] 已定位 OpenGL 方法表 (%zu 个导出)", out.methods.size());
+            ImhLog("[imgui-overlay] 已定位 OpenGL 方法表 (%zu 个导出)", out.methods.size());
             any |= hooks::InstallOpenGL(out);
         }
     }
@@ -259,7 +259,7 @@ bool overlay::InstallHooks()
     gameinput::InstallHooks();
 
     if (!any)
-        ImhLog("[imgui-hook] 未找到任何可挂钩的图形 API");
+        ImhLog("[imgui-overlay] 未找到任何可挂钩的图形 API");
     return any;
 }
 

@@ -1,4 +1,4 @@
-﻿// Direct3D 11 钩子：IDXGISwapChain::Present / ResizeBuffers
+// Direct3D 11 钩子：IDXGISwapChain::Present / ResizeBuffers
 #include "pch.h"
 #include "imgui_hook.h"
 
@@ -40,7 +40,7 @@ namespace
                 if (overlay::EnsureImGui(desc.OutputWindow))
                 {
                     g_initialized = ImGui_ImplDX11_Init(g_device, g_context);
-                    ImhLog("[imgui-hook] D3D11 ImGui 后端初始化 -> %d", (int)g_initialized);
+                    ImhLog("[imgui-overlay] D3D11 ImGui 后端初始化 -> %d", (int)g_initialized);
                     overlay::SetActiveApi(overlay::RenderApi::D3D11);
                 }
             }
@@ -80,10 +80,10 @@ namespace hooks
         // IDXGISwapChain vtable: Present = 8, ResizeBuffers = 13
         if (methods.swapchain_methods.size() <= 13)
         {
-            ImhLog("[imgui-hook] D3D11 方法表过小\n");
+            ImhLog("[imgui-overlay] D3D11 方法表过小\n");
             return false;
         }
-        ImhLog("[imgui-hook] D3D11 Present/ResizeBuffers 钩子已安装\n");
+        ImhLog("[imgui-overlay] D3D11 Present/ResizeBuffers 钩子已安装\n");
 
         if (MH_CreateHook(methods.swapchain_methods[8], (void*)&hkPresent, (void**)&oPresent) != MH_OK)
             return false;

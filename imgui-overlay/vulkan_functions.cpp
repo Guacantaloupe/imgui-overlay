@@ -1,4 +1,4 @@
-﻿// Vulkan 函数指针表实现
+// Vulkan 函数指针表实现
 #include "pch.h"
 #include "vulkan_functions.h"
 #include <windows.h>
@@ -34,7 +34,7 @@ namespace vkfn
 
 #define X(name) \
         name = (PFN_##name)GetProcAddress(g_vulkanModule, #name); \
-        if (!name) { OutputDebugStringA("[imgui-hook] Vulkan 函数缺失: " #name "\n"); return false; }
+        if (!name) { OutputDebugStringA("[imgui-overlay] Vulkan 函数缺失: " #name "\n"); return false; }
         VULKAN_FUNCTION_LIST
 #undef X
 

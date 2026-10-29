@@ -1,4 +1,4 @@
-﻿// Direct3D 12 钩子：Present / ExecuteCommandLists / ResizeBuffers
+// Direct3D 12 钩子：Present / ExecuteCommandLists / ResizeBuffers
 // 参考 DX12-Hook 项目的结构：捕获命令队列，在 Present 前用独立命令列表渲染 ImGui。
 #include "pch.h"
 #include "imgui_hook.h"
@@ -208,7 +208,7 @@ namespace hooks
     {
         // IDXGISwapChain: Present = 8, ResizeBuffers = 13
         // ID3D12CommandQueue: ExecuteCommandLists = 9
-        ImhLog("[imgui-hook] D3D12 钩子安装中\n");
+        ImhLog("[imgui-overlay] D3D12 钩子安装中\n");
         bool ok = true;
         if (methods.swapchain_methods.size() > 13)
         {

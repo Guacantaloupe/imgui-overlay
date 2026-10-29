@@ -1,4 +1,4 @@
-﻿// OpenGL 钩子：wglSwapBuffers
+// OpenGL 钩子：wglSwapBuffers
 #include "pch.h"
 #include "imgui_hook.h"
 
@@ -60,10 +60,10 @@ namespace hooks
             target = it->second;
         if (!target)
         {
-            ImhLog("[imgui-hook] OpenGL 未找到 wglSwapBuffers\n");
+            ImhLog("[imgui-overlay] OpenGL 未找到 wglSwapBuffers\n");
             return false;
         }
-        ImhLog("[imgui-hook] OpenGL wglSwapBuffers 钩子已安装\n");
+        ImhLog("[imgui-overlay] OpenGL wglSwapBuffers 钩子已安装\n");
 
         if (MH_CreateHook(target, (void*)&hkWglSwapBuffers, (void**)&oWglSwapBuffers) != MH_OK)
             return false;
